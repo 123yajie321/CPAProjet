@@ -2,34 +2,29 @@ package view;
 
 
 import interfaces.ReadService;
-import interfaces.ViewerService;
-import javafx.scene.Group;
-import javafx.scene.Parent;
+import interfaces.RequireReadService;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import tools.GameDefaultParameters;
 
 import java.awt.*;
 
 import static tools.GameDefaultParameters.*;
 
 
-public class GamePane extends BorderPane implements ViewerService {
+public class GamePane extends BorderPane implements RequireReadService {
 
 
     private  ReadService gameModel;
 
 
     public GamePane(){
+
     }
 
-    private void start() {
-    }
 
+    @Override
     public void bindReadService(ReadService service){
         this.gameModel=service;
 
@@ -64,7 +59,7 @@ public class GamePane extends BorderPane implements ViewerService {
 
     public void paintSnake(GraphicsContext gc){
 
-        Point[] snakeBody = gameModel.getSnake().getBody();
+        Point[] snakeBody = gameModel.getSnakeBody();
         Point head =snakeBody[0];
         gc.setFill(Color.RED);
         gc.fillRect(head.x * Cube_size, head.y * Cube_size, Cube_size - 2, Cube_size - 2);
@@ -81,14 +76,6 @@ public class GamePane extends BorderPane implements ViewerService {
 
 
     }
-
-
-    @Override
-    public void init() {
-
-    }
-
-
 
 
 }

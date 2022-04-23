@@ -14,6 +14,6 @@ public interface EngineService {
   public void stop();
   public void turnSnackDirection(User.COMMAND c);
  public void setEngineSpeed(int speed);
-    public void restartGame();
+ public void restartGame();
 
 }

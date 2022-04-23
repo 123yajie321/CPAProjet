@@ -8,17 +8,14 @@ import tools.User;
 import java.awt.*;
 
 public class GameModel implements DataService {
-    static Point food;
-    static Snake snake;
-    static Boolean gameOver;
+    private Point food;
+    private Snake snake;
+    private Boolean gameOver;
     private User.COMMAND direction;
-    //public final int size = 50;
-   // public   static final int SIZE = 80;
+
     private static int score;
 
-    public Snake getSnake(){
-        return this.snake;
-    }
+
 
     public GameModel(){
     }
@@ -81,6 +78,12 @@ public class GameModel implements DataService {
     public void setDirection(User.COMMAND c){
         this.direction=c;
     }
+
+    @Override
+    public void incrementSize() {
+            this.snake.incrementSize();
+    }
+
     public boolean isMaxSizeReached(){
         return this.snake.getSize()>= GameDefaultParameters.SNAKE_SIZE_MAX;
     }

@@ -33,19 +33,12 @@ public class GamePage extends Application {
 
 
 
-
-
-
     public static void main(String[] args) {
         data_model=new GameModel();
         engine=new Engine();
         ((Engine)engine).bindDataService(data_model);
         launch(args);
     }
-
-
-
-
 
 
     @Override
@@ -55,9 +48,6 @@ public class GamePage extends Application {
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
 
-
-
-
     }
 
     public void showGameWindow(int engienspeed) throws  Exception{
@@ -65,7 +55,6 @@ public class GamePage extends Application {
        ((GamePane)viewer).bindReadService(data_model);
         data_model.init();
         engine.init();
-        viewer.init();
         engine.setEngineSpeed(engienspeed);
         Stage stage=new Stage();
         Pane p=new Pane();
@@ -102,6 +91,7 @@ public class GamePage extends Application {
                 engine.stop();
             }
         });
+        stage.setTitle("Greedy Snake");
         stage.show();
 
         EventHandler<ActionEvent> event = e -> {

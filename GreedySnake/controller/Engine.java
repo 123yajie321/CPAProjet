@@ -72,7 +72,8 @@ public class Engine implements EngineService , RequireDataService {
                 }
                 break;
             case LEFT:
-                if(direction!= User.COMMAND.RIGHT){
+                // At the beginning, although the snake does not move, its head is facing right, so it cannot move to the left
+                if(direction!= User.COMMAND.RIGHT&&direction!=User.COMMAND.NONE){
                     data.setDirection(User.COMMAND.LEFT);
                 }
                 break;
@@ -86,7 +87,8 @@ public class Engine implements EngineService , RequireDataService {
     }
 
 
-
+    // Cette fonction est utilisée par la  fontion New_food
+    // afin de déterminer que les coordonnées du new_food n'entrent pas en collision avec le corps du "snake"
     public  boolean isCollision(int x,int y){
         for(int i = 0; i < data.getSnakeSize();i++){
             Point point = data.getSnakeBody()[i];
@@ -97,6 +99,7 @@ public class Engine implements EngineService , RequireDataService {
         return false;
     }
 
+    //Déterminez si le corps du serpent dépasse l'écran de jeu. Si c'est le cas, le jeu est terminé.
     public  boolean outBorder(){
         if ( data.getSnakeHead().x < 0 || data.getSnakeHead().x >= NB_CUBE_WIDTH|| data.getSnakeHead().y < 0 || data.getSnakeHead().y >= NB_CUBE_HEIGHT) {
             System.out.println("x:"+data.getSnakeHead().x+" y: "+data.getSnakeHead().y);
@@ -104,7 +107,7 @@ public class Engine implements EngineService , RequireDataService {
         }
         return false;
     }
-
+    //Déterminez si la tête du serpent touche le corps, si c'est le cas, return true.
     public  boolean bodyTouched(){
         Point head=data.getSnakeHead();
         for (int i = 1; i < data.getSnakeSize(); i++) {
@@ -116,6 +119,8 @@ public class Engine implements EngineService , RequireDataService {
         }
         return false;
     }
+
+    //Générer de nouvelles coordonnées de "food“
     public Point newFood() {
         Random random = new Random();
         int x, y;
@@ -126,11 +131,13 @@ public class Engine implements EngineService , RequireDataService {
         return new Point(x,y);
     }
 
+    //Déterminer si le serpent entre en collision avec du "food"
     public void TryEatFood(){
-        if (data.getSnake().getHead().x == data.getFood().x && data.getSnake().getHead().y ==  data.getFood().y) {
-            Point[] body=data.getSnake().getBody();
-            body[data.getSnake().getSize()] = new Point(-1, -1);
-            data.getSnake().incrementSize();
+        Point head=data.getSnakeHead();
+        if (head.x == data.getFood().x && head.y ==  data.getFood().y) {
+            Point[] body= data.getSnakeBody();
+            body[data.getSnakeSize()] = new Point(-1, -1);
+            data.incrementSize();
             data.setFood(newFood());
             System.out.println(" new food  :x y "+data.getFood().x+" "+data.getFood().y);
             data.incrementScore(1);
@@ -140,7 +147,7 @@ public class Engine implements EngineService , RequireDataService {
    public void avancer(){
         if(data.getDirection()!=User.COMMAND.NONE) {
             Point[] snackBody = data.getSnakeBody();
-            for (int i = data.getSnake().getSize() - 1; i >= 1; i--) {
+            for (int i = data.getSnakeSize() - 1; i >= 1; i--) {
                 snackBody[i].x = snackBody[i - 1].x;
                 snackBody[i].y = snackBody[i - 1].y;
             }
