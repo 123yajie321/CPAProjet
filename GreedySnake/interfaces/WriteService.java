@@ -15,4 +15,5 @@ public interface WriteService {
     public void setGameOver(Boolean value);
     public void  incrementScore(int value);
     public void setDirection(User.COMMAND C);
+
 }

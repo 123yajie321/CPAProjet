@@ -3,6 +3,8 @@ package controller;
 
 import interfaces.DataService;
 import interfaces.EngineService;
+import interfaces.RequireDataService;
+import tools.GameDefaultParameters;
 import tools.User;
 
 import java.awt.*;
@@ -13,25 +15,29 @@ import java.util.TimerTask;
 import static tools.GameDefaultParameters.*;
 
 
-public class Engine implements EngineService {
+public class Engine implements EngineService , RequireDataService {
 
+    private int engineSpeed ;
     private Timer engineClock;
     private DataService data;
     private User.COMMAND command;
-    private boolean turnLeft,turnRight,turnUp,turnDown;
-    public Engine(DataService d){
-        this.data=d;
-        engineClock = new Timer();
-        command = User.COMMAND.NONE;
+
+    public Engine(){
+
     }
+
     @Override
     public void init(){
         engineClock = new Timer();
         command = User.COMMAND.NONE;
-        turnLeft = false;
-        turnRight = false;
-        turnUp = false;
-        turnDown = false;
+
+    }
+
+
+
+    @Override
+    public void bindDataService(DataService service) {
+        this.data=service;
     }
 
     @Override
@@ -92,7 +98,8 @@ public class Engine implements EngineService {
     }
 
     public  boolean outBorder(){
-        if ( data.getSnake().getHead().x < 0 || data.getSnake().getHead().x >= CANEVAS_WIDTH || data.getSnake().getHead().y < 0 || data.getSnake().getHead().y >= CANEVAS_HEIGHT) {
+        if ( data.getSnakeHead().x < 0 || data.getSnakeHead().x >= NB_CUBE_WIDTH|| data.getSnakeHead().y < 0 || data.getSnakeHead().y >= NB_CUBE_HEIGHT) {
+            System.out.println("x:"+data.getSnakeHead().x+" y: "+data.getSnakeHead().y);
             return true;
         }
         return false;
@@ -113,8 +120,8 @@ public class Engine implements EngineService {
         Random random = new Random();
         int x, y;
         do {
-            x = random.nextInt(NB_CUBE_WIDTH-5);
-            y = random.nextInt(NB_CUBE_WIDTH-5);
+            x = random.nextInt(NB_CUBE_WIDTH);
+            y = random.nextInt(NB_CUBE_HEIGHT);
         } while (isCollision(x, y));
         return new Point(x,y);
     }
@@ -153,6 +160,7 @@ public class Engine implements EngineService {
                     break;
 
             }
+
             if (outBorder()) {
                 System.out.println("out Border");
                 data.setGameOver(true);
@@ -161,15 +169,30 @@ public class Engine implements EngineService {
                 System.out.println("body touched");
                 data.setGameOver(true);
             }
+            TryEatFood();
+            if(isMaxSizeReached()){
+                data.setGameOver(true);
+            }
+
             if (data.gameIsOver()) {
                 stop();
                 System.out.println("game over");
             }
-            TryEatFood();
+
         }
    }
 
+public void setEngineSpeed(int speed){
+        this.engineSpeed=speed;
+}
+public void restartGame(){
+        data.init();
+        init();
+        start();
 
-
+}
+    public boolean isMaxSizeReached(){
+        return data.getSnakeSize()>= GameDefaultParameters.SNAKE_SIZE_MAX;
+    }
 
 }

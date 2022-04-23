@@ -11,9 +11,6 @@ import javafx.scene.canvas.GraphicsContext;
 
 public interface ViewerService {
   public void init();
-  public Parent getPanel();
-  public void setMainWindowWidth(double w);
-  public void setMainWindowHeight(double h);
   public void paint(GraphicsContext gc);
 
 }

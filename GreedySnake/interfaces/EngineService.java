@@ -13,6 +13,7 @@ public interface EngineService {
   public void start();
   public void stop();
   public void turnSnackDirection(User.COMMAND c);
- // public void releaseCommand(User.COMMAND c);
-  //public void releaseHeroesCommand(User.COMMAND c);
+ public void setEngineSpeed(int speed);
+    public void restartGame();
+
 }

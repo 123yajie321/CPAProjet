@@ -1,6 +1,7 @@
 package model_data;
 
 import interfaces.DataService;
+import tools.GameDefaultParameters;
 import tools.User;
 
 
@@ -12,7 +13,7 @@ public class GameModel implements DataService {
     static Boolean gameOver;
     private User.COMMAND direction;
     //public final int size = 50;
-    public   static final int SIZE = 80;
+   // public   static final int SIZE = 80;
     private static int score;
 
     public Snake getSnake(){
@@ -20,12 +21,10 @@ public class GameModel implements DataService {
     }
 
     public GameModel(){
-        snake = new Snake();
-        food =  new Point(5,5);
-        gameOver = false;
-        direction = User.COMMAND.NONE;
-        score = 0;
     }
+
+
+
 
 
     public boolean gameIsOver(){
@@ -38,7 +37,11 @@ public class GameModel implements DataService {
 
     @Override
     public void init() {
-
+        snake = new Snake();
+        food =  new Point(5,5);
+        gameOver = false;
+        direction = User.COMMAND.NONE;
+        score = 0;
     }
 
     @Override
@@ -78,5 +81,9 @@ public class GameModel implements DataService {
     public void setDirection(User.COMMAND c){
         this.direction=c;
     }
+    public boolean isMaxSizeReached(){
+        return this.snake.getSize()>= GameDefaultParameters.SNAKE_SIZE_MAX;
+    }
+
 
 }
