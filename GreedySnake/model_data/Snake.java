@@ -22,7 +22,6 @@ public class Snake {
         // At the beginn
         for(int i=0; i<len;i++){
             body[i] = new Point(len-i+1,0);
-            System.out.println(i+ " x "+body[i].x);
         }
     }
 

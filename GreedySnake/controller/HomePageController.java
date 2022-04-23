@@ -4,7 +4,7 @@ import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import App.GamePage;
+import App.GreedySnake;
 import tools.GameDefaultParameters;
 
 public class HomePageController implements Initializable {
@@ -14,20 +14,23 @@ public class HomePageController implements Initializable {
     }
 
     public void changeWindow_ModeEasy() throws Exception {
-            GamePage gamePage=new GamePage();
-            gamePage.showGameWindow(GameDefaultParameters.EASY);
+            GreedySnake greedySnake =new GreedySnake();
+            greedySnake.initial_game(GameDefaultParameters.EASY);
+            greedySnake.showGameWindow();
     }
 
 
     public void changeWindow_ModeMedium() throws Exception {
-        GamePage gamePage=new GamePage();
-        gamePage.showGameWindow(GameDefaultParameters.MEDIUM);
+        GreedySnake greedySnake =new GreedySnake();
+        greedySnake.initial_game(GameDefaultParameters.MEDIUM);
+        greedySnake.showGameWindow();
     }
 
 
     public void changeWindow_ModeHard() throws Exception {
-        GamePage gamePage=new GamePage();
-        gamePage.showGameWindow(GameDefaultParameters.HARD);
+        GreedySnake greedySnake =new GreedySnake();
+        greedySnake.initial_game(GameDefaultParameters.HARD);
+        greedySnake.showGameWindow();
     }
 
 }

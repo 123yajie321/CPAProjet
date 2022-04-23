@@ -26,10 +26,11 @@ import view.GamePane;
 import static tools.GameDefaultParameters.CANEVAS_HEIGHT;
 import static tools.GameDefaultParameters.CANEVAS_WIDTH;
 
-public class GamePage extends Application {
+public class GreedySnake extends Application {
     private static DataService data_model;
     private static EngineService engine;
     private static GamePane viewer;
+    private  static   Timeline timer;
 
 
 
@@ -50,12 +51,16 @@ public class GamePage extends Application {
 
     }
 
-    public void showGameWindow(int engienspeed) throws  Exception{
-       viewer=new GamePane();
-       ((GamePane)viewer).bindReadService(data_model);
+    public void initial_game(int enginespeed){
+        viewer=new GamePane();
+        ((GamePane)viewer).bindReadService(data_model);
         data_model.init();
         engine.init();
-        engine.setEngineSpeed(engienspeed);
+        engine.setEngineSpeed(enginespeed);
+    }
+
+    public void showGameWindow( ) throws  Exception{
+
         Stage stage=new Stage();
         Pane p=new Pane();
         p.getChildren();
@@ -73,7 +78,11 @@ public class GamePage extends Application {
                 if (event.getCode()==KeyCode.RIGHT) engine.turnSnackDirection(User.COMMAND.RIGHT);
                 if (event.getCode()==KeyCode.UP) engine.turnSnackDirection(User.COMMAND.UP);
                 if (event.getCode()==KeyCode.DOWN) engine.turnSnackDirection(User.COMMAND.DOWN);
-                if (event.getCode()==KeyCode.R){engine.restartGame();}
+                if (event.getCode()==KeyCode.R){
+                    if(data_model.gameIsOver()){
+                        engine.restartGame();
+                    }
+                }
                     event.consume();
             }
         });
@@ -89,6 +98,7 @@ public class GamePage extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override public void handle(WindowEvent event) {
                 engine.stop();
+                timer.stop();
             }
         });
         stage.setTitle("Greedy Snake");
@@ -101,9 +111,9 @@ public class GamePage extends Application {
                 stage.close();
             }
         };
-        Timeline time = new Timeline(new KeyFrame(Duration.millis(70), event));
-        time.setCycleCount(Timeline.INDEFINITE);
-        time.play();
+        timer = new Timeline(new KeyFrame(Duration.millis(70), event));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
 
     }
 
