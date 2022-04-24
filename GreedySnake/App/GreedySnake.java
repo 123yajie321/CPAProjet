@@ -11,11 +11,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
@@ -35,13 +32,16 @@ public class GreedySnake extends Application {
 
 
     public static void main(String[] args) {
+
         data_model=new GameModel();
         engine=new Engine();
         ((Engine)engine).bindDataService(data_model);
+        viewer=new GamePane();
+        ((GamePane)viewer).bindReadService(data_model);
         launch(args);
     }
 
-
+     //afficher le HomePage
     @Override
     public void start(Stage stage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("../view/homePage.fxml"));
@@ -50,26 +50,24 @@ public class GreedySnake extends Application {
         stage.show();
 
     }
-
+    //initialser le jeu
     public void initial_game(int enginespeed){
-        viewer=new GamePane();
-        ((GamePane)viewer).bindReadService(data_model);
+        viewer.init();
         data_model.init();
         engine.init();
         engine.setEngineSpeed(enginespeed);
     }
 
+
+   //affchier le vue de GamePane
+    //moteur de rendu graphique
     public void showGameWindow( ) throws  Exception{
 
         Stage stage=new Stage();
-        Pane p=new Pane();
-        p.getChildren();
-        Canvas canvas=new Canvas(CANEVAS_WIDTH,CANEVAS_HEIGHT);
-        viewer.getChildren().add(canvas);
-        Scene scene = new Scene(viewer,CANEVAS_WIDTH,CANEVAS_HEIGHT);
-
-        final GraphicsContext context= canvas.getGraphicsContext2D();
-
+        Scene scene=viewer.getScene();
+        if(scene==null) {
+            scene= new Scene(viewer, CANEVAS_WIDTH, CANEVAS_HEIGHT);
+        }
 
         scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
@@ -106,7 +104,7 @@ public class GreedySnake extends Application {
 
         EventHandler<ActionEvent> event = e -> {
             try {
-                viewer.paint(context);
+                viewer.paint();
             } catch (NullPointerException ee){
                 stage.close();
             }

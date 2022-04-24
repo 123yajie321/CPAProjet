@@ -20,7 +20,7 @@ public class Engine implements EngineService , RequireDataService {
     private int engineSpeed ;
     private Timer engineClock;
     private DataService data;
-    private User.COMMAND command;
+
 
     public Engine(){
 
@@ -29,8 +29,6 @@ public class Engine implements EngineService , RequireDataService {
     @Override
     public void init(){
         engineClock = new Timer();
-        command = User.COMMAND.NONE;
-
     }
 
 
@@ -102,7 +100,6 @@ public class Engine implements EngineService , RequireDataService {
     //Déterminez si le corps du serpent dépasse l'écran de jeu. Si c'est le cas, le jeu est terminé.
     public  boolean outBorder(){
         if ( data.getSnakeHead().x < 0 || data.getSnakeHead().x >= NB_CUBE_WIDTH|| data.getSnakeHead().y < 0 || data.getSnakeHead().y >= NB_CUBE_HEIGHT) {
-            System.out.println("x:"+data.getSnakeHead().x+" y: "+data.getSnakeHead().y);
             return true;
         }
         return false;
@@ -144,7 +141,9 @@ public class Engine implements EngineService , RequireDataService {
         }
     }
 
+    //L'ensemble des actions à effectuer dans chaque iteration
    public void avancer(){
+        //lorsque le direction de avancement est determiner
         if(data.getDirection()!=User.COMMAND.NONE) {
             Point[] snackBody = data.getSnakeBody();
             for (int i = data.getSnakeSize() - 1; i >= 1; i--) {
@@ -169,11 +168,10 @@ public class Engine implements EngineService , RequireDataService {
             }
 
             if (outBorder()) {
-                System.out.println("out Border");
                 data.setGameOver(true);
             }
             if (bodyTouched()) {
-                System.out.println("body touched");
+
                 data.setGameOver(true);
             }
             TryEatFood();
@@ -183,7 +181,6 @@ public class Engine implements EngineService , RequireDataService {
 
             if (data.gameIsOver()) {
                 stop();
-                System.out.println("game over");
             }
 
         }

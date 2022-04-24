@@ -19,7 +19,7 @@ public class Snake {
     public Snake(){
         len = GameDefaultParameters.INITIAL_SIZE;
         body = new Point[SNAKE_SIZE_MAX];
-        // At the beginn
+        // Initialisation de la position du corps du serpent
         for(int i=0; i<len;i++){
             body[i] = new Point(len-i+1,0);
         }

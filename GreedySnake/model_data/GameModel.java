@@ -12,13 +12,10 @@ public class GameModel implements DataService {
     private Snake snake;
     private Boolean gameOver;
     private User.COMMAND direction;
-
-    private static int score;
-
+    private int score;
 
 
-    public GameModel(){
-    }
+    public GameModel(){ }
 
 
 
@@ -82,10 +79,6 @@ public class GameModel implements DataService {
     @Override
     public void incrementSize() {
             this.snake.incrementSize();
-    }
-
-    public boolean isMaxSizeReached(){
-        return this.snake.getSize()>= GameDefaultParameters.SNAKE_SIZE_MAX;
     }
 
 
